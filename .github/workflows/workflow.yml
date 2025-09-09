@@ -34,10 +34,13 @@ jobs:
         run: |
           IMAGE=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY
           GIT_SHA=${{ github.sha }}
-
-          # Build only with commit SHA tag
-          docker build -t $IMAGE:$GIT_SHA .
+          
+          # Build with two tags: commit SHA and latest
+          docker build -t $IMAGE:$GIT_SHA -t $IMAGE:latest .
+          
+          # Push both tags
           docker push $IMAGE:$GIT_SHA
+          docker push $IMAGE:latest
 
       - name: Output image URIs
         env:
