@@ -11,9 +11,4 @@ public class EcsCicdAppApplication {
         SpringApplication.run(EcsCicdAppApplication.class, args);
     }
 
-    @GetMapping("/")
-    public String index() {
-        return "Hello from Abdul Baaki N-Nyeyam Hudu! This is the ECS CI/CD Lab.";
-    }
-
 }
