@@ -6,7 +6,7 @@ COPY .mvn .mvn
 COPY src /app/src
 RUN mvn -B -DskipTests package
 
-# Stage 2: Run with JRE
+# Stage 2:  Run with JRE
 FROM eclipse-temurin:21-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
