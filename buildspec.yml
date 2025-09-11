@@ -1,0 +1,44 @@
+version: 0.2
+
+env:
+  variables:
+    TASK_FAMILY: "ecs-cicd-lab-dev-task"
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - IMAGE_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:latest"
+  build:
+    commands:
+      - echo "Generating taskdef.json and appspec.yaml"
+      - |
+        cat > taskdef.json <<EOF
+        {
+          "family": "${TASK_FAMILY}",
+          "containerDefinitions": [
+            {
+              "name": "app",
+              "image": "${IMAGE_URI}",
+              "essential": true,
+              "portMappings": [ { "containerPort": 8080 } ]
+            }
+          ]
+        }
+        EOF
+      - |
+        cat > appspec.yaml <<EOF
+        version: 0.0
+        Resources:
+          - TargetService:
+              Type: AWS::ECS::Service
+              Properties:
+                TaskDefinition: taskdef.json
+                LoadBalancerInfo:
+                  ContainerName: app
+                  ContainerPort: 8080
+        EOF
+artifacts:
+  files:
+    - taskdef.json
+    - appspec.yaml
