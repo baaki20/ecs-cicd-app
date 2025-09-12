@@ -7,7 +7,7 @@
   "executionRoleArn": "arn:aws:iam::414392949441:role/ecs-cicd-infra-v5-EcsTaskExecutionRole-emL3Xv1MT6mC",
   "containerDefinitions": [
     {
-      "name": "ecs-cicd-lab-container",
+      "name": "app",
       "image": "<IMAGE1_NAME>",
       "portMappings": [
         {
